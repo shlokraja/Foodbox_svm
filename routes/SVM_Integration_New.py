@@ -83,7 +83,7 @@ def dispense():
             Temp = conn.lrange("svm_dispenser_queue", 0, -1)
             #print(Temp)
             if Temp:
-                print(len(Temp))
+                #print(len(Temp))
                 for y in range(len(Temp)):
                     itemDetails = json.loads(Temp[y])
                     #print("Data :"+ itemDetails)
@@ -100,8 +100,8 @@ def dispense():
                         quantity = int(itemDetails['quantity'])
                         print("Inside dispensing", item)
                         print("Inside dispensing qty", quantity)
-                        #flag = Send_to_dispenser(item, quantity)
-                        flag = True
+                        #flag = Send_to_dispenser(item, quantity) #To be uncommented in Production
+                        flag = True # To be Commented in Production
                         if flag:
                             itemDetails['status'] = 'delivered'
                             conn.lset("svm_dispenser_queue", y, json.dumps(
@@ -211,19 +211,12 @@ def Send_to_dispenser(item, quantity):
 					flag = True
 					time.sleep(45)
     else:
-        print("invalid drink")
+        print("invalid Snacks")
 
     return flag
 
 
-def checkErrorStatus(Snack_Dispense):    
-   # Check pin 4 =eo1 error(Heating water) and pin 17 e02 error(Cup not available) status
-   # GPIO.setmode(GPIO.BCM)
-   # GPIO.setwarnings(False)
-   # GPIO.setup(PinNo, GPIO.IN) 
-   # state = GPIO.input(PinNo)
-   # GPIO.cleanup()
-   # time.sleep(10)
+def checkErrorStatus(Snack_Dispense):      
     if Coffee_Dispense=='FC': 
 		print "System Busy"
 		state=True
